@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:h="http://java.sun.com/jsf/html"  
+    xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:p="http://primefaces.org/ui">  
+  
+    <h:head>  
+  
+    </h:head>  
+      
+    <h:body> 
+    	<h:form id="formListaUsuarios">
+    		<p:dataTable id = "tabListaUsuarios"  var = "usuario"   value="#{usuarioVista.losUsuarios}" 
+    			 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15,20"
+    			paginator="true" rows="5" 
+    			sortBy="#{usuario.usuCedula}"
+    			>
+    			<p:column  headerText="Cedula" filterBy="#{usuario.usuCedula}" >
+    				<p:outputLabel  value="#{usuario.usuCedula}"  /> 
+    			</p:column>
+    			
+    			
+    			<p:column  headerText = "Tipo Usuario" filterBy="#{usuario.tiposUsuarios.tusuNombre}" >
+    				<p:outputLabel  value="#{usuario.tiposUsuarios.tusuNombre}"  />
+    			</p:column>
+    			
+    			<p:column  headerText= "Nombre" filterBy="#{usuario.usuNombre}" >
+    				<p:outputLabel  value="#{usuario.usuNombre}"  />
+    			</p:column>
+    			
+    			<p:column  headerText= "Login" filterBy="#{usuario.usuLogin}" >
+    				<p:outputLabel  value="#{usuario.usuLogin}"  />
+    			</p:column>
+    			
+    			<p:column  headerText= "Clave" filterBy="#{usuario.usuClave}" >
+    				<p:outputLabel  value="#{usuario.usuClave}"  />
+    			</p:column>
+    			
+    			
+    			
+    		</p:dataTable>
+    	</h:form>
+    </h:body>  
+</html>  

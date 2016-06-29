@@ -1,0 +1,87 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+	
+		<script src="${request.contextPath}/js/utilities.js"/>
+
+</h:head>
+
+<h:body>
+
+	<h:form>
+		<p:growl id="msg" />
+		<p:panel header="Formulario de transacciones"
+			id="pnlFormularioTransacciones">
+			<h:panelGrid columns="2" border="0">
+				<p:outputLabel value="Número cuenta" />
+				<p:inputText id="txtNumeroCuenta" size="20" maxlength="50"
+					binding="#{transaccionesVista.txtNumeroCuenta}">
+					<p:ajax listener="#{transaccionesVista.txtNumeroCuentaListener}"
+						update="pnlFormularioTransacciones" />
+				</p:inputText>
+
+				<p:outputLabel value="Cliente" />
+				<p:inputText id="txtCliente"
+					binding="#{transaccionesVista.txtCliente}" readonly="true"  size="20" />
+
+				<p:outputLabel value="Usuario" />
+				<p:selectOneMenu id="somUsuario" size="20" 
+					binding="#{transaccionesVista.somUsuario}">
+					<f:selectItem itemValue="-1" itemLabel="---------------" />
+					<f:selectItems value="#{transaccionesVista.losUsuarios}" />
+				</p:selectOneMenu>
+
+
+				<p:outputLabel value="Valor" />
+				<p:inputText id="txtValor" binding="#{transaccionesVista.txtValor}" size="20" 
+					onkeypress="return validarNumerico(event)" maxlength="7"/>
+
+				<p:outputLabel value="Clave" />
+				<p:password id="txtClave" binding="#{transaccionesVista.txtClave}"  maxlength="4"
+					size="20"/>
+				
+				
+				
+
+			</h:panelGrid>
+			<h:panelGrid columns="4" border="0">
+				<p:commandButton id="btnConsignar" value="Consignar"
+					binding="#{transaccionesVista.btnConsignar}" disabled="true"
+					action="#{transaccionesVista.consignarAction}" 
+					update="msg,txtNuevoSaldo,txtSaldoAnterior" />
+
+				<p:commandButton id="btnRetirar" value="Retirar"
+					binding="#{transaccionesVista.btnRetirar}" disabled="true"
+					action="#{transaccionesVista.retirarAction}" 
+					update="msg,txtNuevoSaldo,txtSaldoAnterior" />
+
+
+				<p:commandButton id="btnLimpiar" value="Limpiar"
+					binding="#{transaccionesVista.btnLimpiar}" disabled="true"
+					action="#{transaccionesVista.limpiarAction}"
+					update="msg,pnlFormularioTransacciones,txtNuevoSaldo,txtSaldoAnterior" />
+			</h:panelGrid>
+			
+			<p:separator />
+			<h:panelGrid columns="2" border="0">
+			<p:outputLabel value="Saldo Actual" />
+				<p:inputText id="txtNuevoSaldo" binding="#{transaccionesVista.txtNuevoSaldo}" size="20" 
+					onkeypress="return validarNumerico(event)" maxlength="10"/>
+					
+					
+			<p:outputLabel value="Saldo anterior" />
+				<p:inputText id="txtSaldoAnterior" binding="#{transaccionesVista.txtSaldoAnterior}" size="20" 
+					onkeypress="return validarNumerico(event)" maxlength="10"/>
+			</h:panelGrid>
+			
+			
+		</p:panel>
+	</h:form>
+
+
+</h:body>
+</html>

@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+
+</h:head>
+
+<h:body>
+
+	<h:form>
+		<p:growl  id="msg" />
+		<p:panel header="Formulario de usuario" id="pnlFormularioUsuario">
+			<h:panelGrid columns="2" border="0">
+				<p:outputLabel value="Id" />
+				<p:inputText id="txtCedula" binding="#{usuarioVista.txtCedula}">
+					<p:ajax listener="#{usuarioVista.txtIdentificacionListener}" update="pnlFormularioUsuario" />
+				</p:inputText>
+
+				<p:outputLabel value="Tipo Usuario" />
+				<p:selectOneMenu id="somTipoUsuario"  binding="#{usuarioVista.somTipoUsuario}"   >
+					<f:selectItem itemValue="-1" itemLabel="---------------" />
+					<f:selectItems   value="#{usuarioVista.losTiposUsuarios}"   />
+				</p:selectOneMenu>
+
+
+				<p:outputLabel value="Nombre" />
+				<p:inputText id="txtNombre"  binding="#{usuarioVista.txtNombre}" />
+					
+				<p:outputLabel value="Login" />
+				<p:inputText id="txtLogin"  binding="#{usuarioVista.txtLogin}" />
+					
+				<p:outputLabel value="Clave" />
+				<p:inputText id="txtClave"  binding="#{usuarioVista.txtClave}" />
+					
+				
+
+			</h:panelGrid>
+			<h:panelGrid columns="4" border="0">
+					<p:commandButton id="btnCrear" value="Crear" 			 binding="#{usuarioVista.btnCrear}" 	
+						disabled="true"   action="#{usuarioVista.crearAction}"  update="msg,formListaUsuarios:tabListaUsuarios" />
+					<p:commandButton id="btnModificar" value="Modificar"	 binding="#{usuarioVista.btnModificar}" 
+						disabled="true" action="#{usuarioVista.modificarAction}"  update="msg,formListaUsuarios:tabListaUsuarios" />
+					<p:commandButton id="btnBorrar" value="Borrar"  		 binding="#{usuarioVista.btnBorrar}" 	
+						disabled="true"  action="#{usuarioVista.borrarAction}"  update="msg,pnlFormularioUsuario,formListaUsuarios:tabListaUsuarios" />
+					<p:commandButton id="btnLimpiar" value="Limpiar"		 binding="#{usuarioVista.btnLimpiar}" 	
+						disabled="false"  action="#{usuarioVista.limpiarAction}"  update="msg,pnlFormularioUsuario" />
+				</h:panelGrid>		
+		</p:panel>
+	</h:form>
+	
+	<ui:include   src="listaUsuarios.xhtml"/>
+	
+</h:body>
+</html>

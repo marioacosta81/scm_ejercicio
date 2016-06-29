@@ -1,0 +1,333 @@
+var jQuery = $.noConflict();
+function iniciar(){
+	
+	var wh = jQuery(window).height();
+	var wrapperH = jQuery('.box-gen').height();
+	var footerH = jQuery('.box-footer').innerHeight();
+	var obj = new stickyFooter(jQuery);
+
+	obj.init(wh, wrapperH, footerH);
+
+	//Resize
+	jQuery(window).resize(function(){
+		wh = jQuery(window).height();
+		wrapperH = jQuery('.box-gen').height();
+		ooterH = jQuery('.box-footer').innerHeight();
+		obj.resize(wh, wrapperH, footerH);
+	});
+}
+
+function stickyFooter(){
+	
+	this.init = function(wh, wrapperH, footerH){
+		this.css(wh, wrapperH, footerH);
+	};
+	this.resize = function(wh, wrapperH, footerH){
+		this.css(wh, wrapperH, footerH);
+	};
+	this.css = function(wh, wrapperH, footerH){
+		if(wh <= (wrapperH+footerH)){
+			jQuery('.box-footer').css({
+				'position': 'inherit'
+			});
+		}else{
+			jQuery('.box-footer').css({
+				'position': 'absolute'
+			});
+		};
+	};
+};
+function ocultarMensajeFaces() {
+	jQuery(".box-error").dblclick(function() {
+		jQuery(this).hide('slow');
+	});
+}
+
+function limpiarMensajeFaces() {
+	jQuery(".box-error").dblclick();
+}
+
+/*
+function direccionResidencia() {
+	// function for autocomplete textbox results
+	jQuery("#idDireccionResidencia").autocomplete( {
+		source : function(request, response) {
+			nomenclaturaDane(request, response);
+		},
+		select : function(event, ui) {
+			var valueFilter = jQuery("#direccionFiltro").val();
+
+			if (valueFilter.indexOf(" ") < 0) {
+				valueFilter = "";
+			}
+
+			jQuery("#direccionFiltro").val(valueFilter + ui.item.id);
+
+			return false;
+		}
+	});
+}
+*/
+
+function inputContrasenia(){
+	jQuery("#input_contrasena").on("ready",function(){
+		//jQuery(this).val("");
+		jQuery(this).attr("type","password");
+	});
+}
+
+function nomenclaturaDane(request, response) {
+
+	var result = [ {
+		label : "Carrera",
+		id : "CR"
+	}, {
+		label : "Calle",
+		id : "CL"
+	}, {
+		label : "Avenida",
+		id : "AV"
+	}, {
+		label : "Apartamento",
+		id : "AP"
+	} ];
+
+	// associate resulting data to array for displaying on autocomplete
+	var direcciones = [];
+	var j = 0;
+
+	for (i = 0; i < result.length; i++) {
+
+		//if(result[i].label.toUpperCase().indexOf(request.term.toUpperCase()) >= 0)
+		//{
+		direcciones[j++] = result[i];
+		//}
+	}
+
+	// sort the array by name
+	direcciones.sort(sortByName);
+	response(direcciones);
+}
+
+// This will sort arrays
+function sortByName(element1, element2) {
+	var aName = element1.label.toLowerCase();
+	var bName = element2.label.toLowerCase();
+	return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+}
+
+/**
+ * función que permite ingresar solo digitos númericos en 
+ * un campo de texto
+ * @autor macosta 07/05/2015
+ * @param {Object} e
+ * @return {TypeName} 
+ */
+function validarNumerico(e) {
+	var tecla = (document.all) ? e.keyCode : e.which;
+	if (tecla > 47 && tecla < 58 || tecla == 8 || tecla == 0) {
+		return true;
+	} else
+		return false;
+}
+
+/**
+ * función que permite el efecto de texto in place 
+ * @autor macosta 07/05/2015
+ * @param {Object} e
+ * @return {TypeName} 
+ */
+function textoInPlace(obj,strDefaultValue) {
+	obj.title = strDefaultValue.replace(':', '').replace('*', '');
+	var oldValue = obj.value;
+	if( oldValue == strDefaultValue){
+		obj.value="";
+	}
+	
+	limpiarMensajeFaces();
+}
+
+function selectInPlace(obj,strDefaultValue) {
+	obj.title = strDefaultValue.replace(':', '').replace('*', '');
+	var oldValue = obj.value;
+	if( oldValue == strDefaultValue){
+		obj.value="";
+	}
+}
+
+
+/**
+ * función que permite el efecto de texto inplace para un password 
+ * un campo de texto
+ * @autor macosta 07/05/2015
+ * @param {Object} e
+ * @return {TypeName} 
+ */
+function passwordInPlace(obj,strDefaultValue) {
+	obj.title = strDefaultValue.replace(':', '').replace('*', '');
+	var oldValue = obj.value;
+	if( oldValue == strDefaultValue){
+		obj.value="";
+		obj.type="password";
+	}
+	limpiarMensajeFaces();
+}
+
+/**
+ * función que permite el efecto de texto inplace para un password 
+ * un campo de texto cundo se carga la pagina
+ * @autor macosta 07/05/2015
+ * @param {Object} e
+ * @return {TypeName} 
+ */
+function passwordInPlaceOnLoad(strDefaultValue) {
+	var obj = document.getElementById("formLogin:input_contrasena")
+	var oldValue = obj.value;
+	obj.type="password";
+	if( oldValue == strDefaultValue){
+		obj.type="text";
+	}
+}
+
+
+
+/**
+ * función que permite el efecto de texto inplace para un password 
+ * un campo de texto cundo se carga la pagina
+ * @autor macosta 07/05/2015
+ * @param {Object} e
+ * @return {TypeName} 
+ */
+function passwordInPlaceOnLoadCambiarContrasena(strDefaultValue1,strDefaultValue2,strDefaultValue3) {
+	var obj1 = document.getElementById("formGeneral:contraactual");
+	var obj2 = document.getElementById("formGeneral:nuevacontra");
+	var obj3 = document.getElementById("formGeneral:confirmacontra");
+	
+	var oldValue1 = obj1.value;
+	var oldValue2 = obj2.value;
+	var oldValue3 = obj3.value;
+	
+	obj1.type="password";
+	obj2.type="password";
+	obj3.type="password";
+	
+	if( oldValue1 == strDefaultValue1){
+		obj1.type="text";
+	}
+	if( oldValue2 == strDefaultValue2){
+		obj2.type="text";
+	}
+	if( oldValue3 == strDefaultValue3){
+		obj3.type="text";
+	}
+}
+
+
+
+
+
+/**
+ * función que permite invoca un servlet desde javaScript 
+ * un campo de texto
+ * @autor macosta 07/05/2015
+ * @param {Object} e
+ * @return {TypeName} 
+ */
+function servletInvoker(){
+	var protocolo = location.protocol;
+	var ip = location.hostname;
+	var puerto = location.port;
+	//var parametros = "?integracionXtremo="+integracionXtremo;
+	var ipUrl = protocolo+"//"+ip+":"+puerto+"/PortalTransaccionalWeb/Captcha.jpg";
+	alert(ipUrl);
+	
+	window.location=ipUrl;
+}
+
+
+/**
+ * función que permite el efecto de etiquete con el campo vacio
+ * @autor macosta 07/05/2015
+ * @param {Object} e
+ * @return {TypeName} 
+ */
+function textoInPlaceChangeVacio(obj,strDefaultValue) {
+	var oldValue = obj.value;
+	if( oldValue == ""){
+		obj.value=strDefaultValue;
+	}
+	limpiarMensajeFaces();
+	
+}
+
+/**
+ * función que permite el efecto de etiquete con el campo vacio
+ * @autor macosta 07/05/2015
+ * @param {Object} e
+ * @return {TypeName} 
+ */
+function passwordInPlaceChangeVacio(obj,strDefaultValue) {
+	var oldValue = obj.value;
+	if( oldValue == ""){
+		obj.type="text";
+		obj.value=strDefaultValue;
+	}
+	
+}
+
+
+/**
+ * función que no permite ingresar caracteres especiales 
+ * un campo de texto
+ * @autor macosta 07/05/2015
+ * @param {Object} e
+ * @return {TypeName} 
+ */
+function validarCaracteresEspeciales(event) {
+	if ((event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 97 && event.keyCode <= 122) || event.keyCode == 8) {
+		event.returnValue = true;
+	} else {
+		if ((event.keyCode >= 48 && event.keyCode <= 57) || event.keyCode == 8 || event.keyCode == 32|| event.keyCode == 35|| event.keyCode == 45 ) {
+			event.returnValue = true;
+		} else {
+			event.returnValue = false;
+		}
+	}
+} 
+
+function pushEnter(strIdButton,e) {
+    if (e.keyCode == 13) {
+        //alert('presiono enter');
+        //document.getElementById("formLogin:idIngresButton").click();
+        //alert('fin presiono enter');
+        
+    	document.getElementById(strIdButton).click();
+    	return false;
+    }
+}
+
+
+function pushMayusculas(strIdLabel, e) {
+	var s = String.fromCharCode( e.keyCode );
+    
+	if ( s.toUpperCase() === s && s.toLowerCase() !== s && !e.shiftKey ) {
+    	document.getElementById(strIdLabel).style.visibility = "inherit";
+    	document.getElementById(strIdLabel).style.display = "inline";
+    }else{
+    	document.getElementById(strIdLabel).style.display = "none";
+    }    
+}
+
+
+
+/**
+ * ready del formulario
+ * @param {Object} jQuery
+ */
+jQuery(document).ready(function($){
+	jQuery = $;
+	iniciar();
+	ocultarMensajeFaces();
+	//direccionResidencia();
+	inputContrasenia();
+});
